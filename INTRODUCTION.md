@@ -41,3 +41,5 @@ Se um grafo não possui ciclos, então dá pra resolver muitos problemas de form
 ## Grafo Completo (Complete Graph)
 
 É um grafo onde todos os vértices se conectam entre si. Ou seja, todas as possibilidades de pares de vértices são possiveis e existentes no conjunto de arestas.
+
+# Lista de Adjacências
