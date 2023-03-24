@@ -18,6 +18,8 @@ Existem duas orientações de grafos principais: os grafos direcionados (directe
 
 ## Grafos não direcionados (Undirected Graphs)
 
+### Sem Pesos
+
 - Definição: Um grafo não-direcionado é um par ordenado $(V,E)$ tal que:
     - $V$ é um conjunto finito, e
     - $E \subseteq \{\{u,v\} \subseteq V : u \neq v\}$ (a primeira chave representa o conjunto de pares não ordenados de um vértice)
@@ -34,11 +36,74 @@ $V = \{A,B,C,D\}$, onde V é o conjunto de vértices.
 
 $E = \{\{A,B\},\{A,C\}\}$, onde E é o conjunto de arestas (edges).
 
+Observe que a definição anterior não permite:
+
+- Mais de uma aresta entre dois vértices;
+- Uma aresta ligando um vértice a si próprio;
+
+### Com Pesos
+
+- Definição: um grafo não-direcionado com pesos $w$ (nas arestas) é uma tupla $(V,E,w)$ tal que $(V,E)$ é um grafo não direcionado, e $w:E\to \mathbb{R}$.
+
+$w$ é uma função que recebe uma aresta de um grafo e gera um output real, que é o o peso do grafo.
+
+![](2023-03-24-13-28-35.png)
+
+Em um grafo $G = (V,E)$:
+
+- Os vértices são os elementos de V;
+- As arestas são os eleentos de E;
+- Uma aresta ${u,v}$ incide sobre $u$ e $v$, que são suas extremidades;
+- A vizinhança aberta de um vértice $u$ é o conjunto dos seus vizinhos:
+    - $N(u) = {v \in V : {u,v} \in E}$
+- A vizinhança fechada de $u$ é:
+    - $N'(u) = N(u) \cup {u}$
+- O grau de um vértice $u$ é o número dos seus vizinhos
+    - $d(u) = \left| N(u) \right|$ (cardinalidade vista em matemática discreta. Não é módulo).
+
+
 ## Grafos direcionados (Directed Graphs)
+
+![](2023-03-15-15-08-51.png)
+
+- Definição: um grafo direcionado é um par $(V,E) tal que:
+    - $V$ é um conjunto finito;
+    - $E \subseteq {(u,v) \in V\times V : u \neq v}$
 
 Um grafo direcionado G(V,E) é um conjunto de vértices e arestas onde pelo menos uma aresta é unidimensional. Ou seja, existe uma aresta (u,v) e pode não existir uma aresta (v,u) ou não ser idêntica.
 
-![](2023-03-15-15-08-51.png)
+**Exemplo**
+
+![](2023-03-24-15-40-58.png)
+
+$V$ = {A,B,C}
+$E$ = {(A,C),(A,B)}$
+${(u,v) \in V\times V : u \neq v} = {(A,B),(B,A),(A,C),(C,A),(B,C),(C,B)}$
+
+- Numa arsta (u,v), $u$ é a origem, $v$ é o destino, e a aresta é dita sair de $u$ e chegar em $v$;
+- A vizinhança de saída de um vértice $u$ é $N^+(u) = {v \in V: (u,v) \in E}$
+- A vizinhança de chegada é $N^-(u) = {v \in V : (v,u) \in E}$.
+- O grau de saída é $d^+(u) = \left| N^+(u) \right|$ e o de chegada é $d^-(u) = \left| N^-(u) \right|$.
+
+> Nota: aresta em grafos direcionados também são chamados de arcos. Arcos são arestas de um grafo direcionado.
+
+## Algoritmo: descobrir o vértice de grau máximo
+
+```python
+    def vertice_de_grau_maximo(self):
+        grau_maximo = -1
+        vertice_grau_maximo = None
+
+        for vertice in range(len(self.lista_adj)):
+            grau = 0
+            for aresta in self.lista_adj[vertice]:
+                grau += 1
+            if grau > grau_maximo:
+                grau_maximo = grau
+                vertice_grau_maximo = vertice
+
+        return vertice_grau_maximo
+```
 
 # Tipos de Grafos
 
@@ -68,21 +133,48 @@ Se um grafo não possui ciclos, então dá pra resolver muitos problemas de form
 
 ![](2023-03-13-16-47-08.png)
 
-# Representação dos Grafos
+# Representação Computacional dos Grafos
 
-Existem duas formas de representar os grafos para trabalhar com algoritmos: Lista de Adjacências e Matriz de Adjacências.
+- 1: Através dos problemas e algoritmos passados, nós observamos:
+    - Nós precisamos conseguir percorrer os vértices e as arestas;
+    - Dado um vértice qualquer, nós precisamos conseguir percorrer seus vizinhos;
+    - É útil conhecer o número de vértices.
+
+Além disso, nós ocasionalmente precisamos associar informações aos vértices (e então desejamos acessá-los de forma eficiente).
+
+- 2: Estipulação - Daqui para a frente, nós vamos supor que, para qualquer grafo $G = (V,E)$, temos $V = {0,...,n-1}$, para algum $n \in \mathbb{N}$. Em outras palavras:
+    - Nós denotaremos o número de vértices de algum grafo por $n$, facilitando menções a $\left| N^-(u) \right|$;
+    - $m$ será o número de arestas;
+    - Nós vamos supor que os vértices de um grafo são os números 0,1,...,n-1 , tornando imediato associar dados aos vértices (basta criar um vetor de $n$ elementos).
+
+- 3: Discussão - Que estrutura de dados podemos usar para representar grafos, de forma a conseguir realizar de maneira eficiente as operações do item 1?
+
+É aqui que entra duas formas de representar os grafos para trabalhar com algoritmos: Lista de Adjacências e Matriz de Adjacências.
 
 ## Lista de Adjacências (Adjacency List)
 
 Nós atribuimos uma estrutura de dados (1D array) para cada vértice (nó) no grafo, e cada array guarda elementos que mostra a conexão (aresta) com outro vértice e o peso dessa conexão se o grafo tiver peso.
 
+Podemos usar um vetor, e dentro dele, ponteiros para listas encadeadas, vetores ou quaisquer tipos de estrutura de dados (até mesmo árvores).
+
 ![](2023-03-14-09-38-28.png)
 
 O uso de memória depende do número de arestas, o que pode salvar muita memória se a matriz de adjacências tiver bastante zeros. Ou seja, grafos dispersos é eficiente, mas grafos densos é ineficiente.
 
-Buscar a aresta entre dois nós é O(k), onde k é o número de nós vizinhos.
+Buscar a aresta entre dois nós é O(k), onde k é o número de nós vizinhos. O fato é que mesmo sendo uma espécie de matriz (lista contendo lista), se você souber o índice (vértice), assintoticamente no pior caso é apenas 0(k), e não quadrático.
 
 É rápido adicionar ou deletar um nó e é rápido iterar sobre todas as arestas, pois você pode acessar qualquer nó vizinho diretamente.
+
+Na lista, podemos representar o peso da aresta como:
+
+```cpp
+class Noh{
+    int vizinhos;
+    double w; // Peso da aresta
+}
+```
+
+Onde o vetor armazena ponteiros que apontam pro tipo Noh.
 
 ## Matriz de Adjacências (Adjacency Matrix)
 
@@ -104,5 +196,6 @@ E por fim, se o grafo for direcional, mas bidirecional para toda aresta, ela tam
 
 O uso de espaço é eficiente em grafos mais densos, mas requer memória O(V²) no pior caso.
 
-Verificar o peso de uma aresta é O(1), e iterar sobre todas as arestas tem um custo de O(E²).
+Verificar o peso de uma aresta é O(1) se vocẽ tiver as coordenadas, e iterar sobre todas as arestas tem um custo de O(E²).
 
+Na matriz, representamos os pesos substituido 1 pelo peso da aresta.
