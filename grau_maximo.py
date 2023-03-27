@@ -1,3 +1,5 @@
+from queue import Queue
+
 class Grafo:
     def __init__(self, lista_adj) -> None:
         self.lista_adj = lista_adj
@@ -22,6 +24,21 @@ class Grafo:
                 vertice_grau_maximo = vertice
 
         return vertice_grau_maximo
+    
+    
+
+    def distance_graph_simple(self, o):
+        n = len(self.lista_adj)
+        d = [float('inf')] * n
+        d[o] = 0
+        queue = [o]
+        while queue:
+            u = queue.pop(0)
+            for v in self.lista_adj[u]:
+                if d[v] == float('inf'):
+                    d[v] = d[u] + 1
+                    queue.append(v)
+        return d
 
 
 lista_adj = [[1,4],
@@ -36,4 +53,5 @@ lista_adj = [[1,4],
              [0,1,2,3,4,5,6,7,8],]
 
 grafo = Grafo(lista_adj)
-print(grafo.vertice_de_grau_maximo())
+#print(grafo.vertice_de_grau_maximo())
+print(grafo.distance_graph_simple(2))
