@@ -226,4 +226,8 @@ Ideia de um desenho: preciso verificar se o vértice do meio atende a uma regra:
 
 Ou seja, deve existir 1 e apenas 1 vértice que conecta todos, e o restante dos vértices não conectam entre si. Se o algoritmo encontrar outro vértice que conecta a outro vértice aleatório, o grafo não é uma estrela.
 
-Pseudocódigo:
+Portanto, preciso verificar o conjunto de arestas de um vértice e ver se o grau dele bate com a $(quantidade de arestas) - 1$. Isso só pode ocorrer 1 vez.. 
+
+```python
+
+```

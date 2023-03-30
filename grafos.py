@@ -3,12 +3,12 @@ from queue import Queue
 class Grafo:
     def __init__(self, lista_adj) -> None:
         self.lista_adj = lista_adj
-        num_vertices = len(lista_adj)
+        self.num_vertices = len(lista_adj)
 
     def _numero_de_vertices(self, lista_adj):
         num = 0
         for i in lista_adj:
-            num = num + 1
+            num += 1
 
     # Busca o vértice de maior grau. Convertido do pseudocódigo do Pablo pra python.
     def vertice_de_grau_maximo(self):
@@ -39,6 +39,30 @@ class Grafo:
                     d[v] = d[u] + 1
                     queue.append(v)
         return d
+    
+    def is_star_graph(self):
+        controle = 0
+        index = 0
+        for i in self.lista_adj:
+            if len(i) == self.num_vertices-1:
+                controle += 1
+                center_vertex = i
+                center_index = index
+            if controle > 1:
+                return False
+            index += 1
+        controle = 0
+        for i in self.lista_adj:
+            if (center_vertex != i) and (len(i) == 1) and center_index == i[0]:
+                controle += 1
+                print(controle)
+        if controle == self.num_vertices-1:
+            return True
+        return False
+
+                
+
+
 
 
 lista_adj = [[1,4],
@@ -52,6 +76,17 @@ lista_adj = [[1,4],
              [0,1,2,3,4,5,6,7,9],
              [0,1,2,3,4,5,6,7,8],]
 
+
+lista_adj_estrela = [
+    [1,2,3],
+    [0],
+    [0],
+    [0],
+    [0],
+]
+
 grafo = Grafo(lista_adj)
+grafo_estrela = Grafo(lista_adj_estrela)
 #print(grafo.vertice_de_grau_maximo())
 print(grafo.distance_graph_simple(2))
+print(grafo_estrela.is_star_graph())
