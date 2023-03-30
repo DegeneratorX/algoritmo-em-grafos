@@ -199,3 +199,31 @@ O uso de espaço é eficiente em grafos mais densos, mas requer memória O(V²) 
 Verificar o peso de uma aresta é O(1) se vocẽ tiver as coordenadas, e iterar sobre todas as arestas tem um custo de O(E²).
 
 Na matriz, representamos os pesos substituido 1 pelo peso da aresta.
+
+# Exercícios da disciplina
+
+## Exercício da Aula 01
+
+>Conteúdo: O que são Grafos: intuição, desenhos e definição de grafo não-direcionado.
+
+**Alguns grafos podem ser desenhados no papel sem que qualquer aresta "cruze" (passe por cima de) outra; já para outros grafos, isso simplesmente não é possível: alguma aresta vai acabar cruzando outra, mesmo com a possibilidade de desenhar arestas curvadas. Procure então encontrar (usando apenas seu pensamento e desenhos) um grafo não-direcionado que você não consiga desenhar sem que alguma aresta cruze outra. Em seguida, rotule cada vértice com algum nome e então escreva a definição matemática desse grafo como um par (V,E) de vértices e arestas, conforme ensinado na aula de hoje.**
+
+![](2023-03-30-13-09-31.png)
+
+Esse grafo não direcionado G(V,E) é um conjunto de vértices e arestas tal que para toda aresta {u,v}, é idêntica (=) a aresta {v,u} trivialmente, pois é um conjunto de pares, e em conjuntos a ordem não importa.
+
+$V = \{A,B,C,D,E,F,G,H,I,J\}$
+
+$E = \{(A,B), (A,I), (B,C), (C,D), (C,K), (D,J), (D,E),(E,K),(E,F),(F,G),(G,H),(H,K),(H,I),(I,J),(J,K)\}$
+
+## Exercício da Aula 02
+
+>Conteúdo: Definição de Grafo Não-Direcionado (Recapitulação). Definição de Grafo Não-Direcionado Ponderado (nas Arestas). Terminologia Básica sobre Grafos Não-Direcionados. Definição de Grafo Direcionado. Terminologia Básica sobre Grafos Direcionados. Introdução à Manipulação Algorítmica de Grafos: Obtenção de Vértice de Grau Máximo.
+
+**Seguindo o molde apresentado na aula de hoje, escreva um algoritmo que receba como entrada um grafo não-direcionado de pelo menos 3 vértices e que informe, através de um booleano, se ele se trata ou não de um grafo estrela.**
+
+Ideia de um desenho: preciso verificar se o vértice do meio atende a uma regra: que ele seja conectado por todos os outros vértices, e os outros vértices NÃO podem se conectar entre si.
+
+Ou seja, deve existir 1 e apenas 1 vértice que conecta todos, e o restante dos vértices não conectam entre si. Se o algoritmo encontrar outro vértice que conecta a outro vértice aleatório, o grafo não é uma estrela.
+
+Pseudocódigo:
