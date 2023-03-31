@@ -224,10 +224,17 @@ $E = \{(A,B), (A,I), (B,C), (C,D), (C,K), (D,J), (D,E),(E,K),(E,F),(F,G),(G,H),(
 
 Ideia de um desenho: preciso verificar se o vértice do meio atende a uma regra: que ele seja conectado por todos os outros vértices, e os outros vértices NÃO podem se conectar entre si.
 
-Ou seja, deve existir 1 e apenas 1 vértice que conecta todos, e o restante dos vértices não conectam entre si. Se o algoritmo encontrar outro vértice que conecta a outro vértice aleatório, o grafo não é uma estrela.
+Ou seja, deve existir 1 e apenas 1 vértice que conecta todos, e o restante dos vértices não conectam entre si, somente ao vértice central. Se o algoritmo encontrar outro vértice que conecta a outro vértice aleatório, o grafo não é uma estrela.
 
-Portanto, preciso verificar o conjunto de arestas de um vértice e ver se o grau dele bate com a $(quantidade de arestas) - 1$. Isso só pode ocorrer 1 vez.. 
+Portanto, preciso verificar o conjunto de arestas de um vértice e ver se o grau dele bate com a $(quantidade de arestas) - 1$.
 
-```python
+O algoritmo está no arquivo **grafos.py**.
 
-```
+## Exercício da Aula 03
+
+>Conteúdo: Observação sobre operações típicas realizadas sobre grafos em algoritmos; Convenção sobre a natureza dos vértices dos grafos para daqui em diante; Estruturas de Dados para Representação de Grafos: Listas de Adjacências e Matriz de Adjacências (um estudante também acabou mencionando uma estrutura que é tradicionalmente conhecida como Matriz de Incidências, mas eu esqueci de mencionar esse fato no fim da discussão).
+>Definições: passeio, caminho e distância (em grafos simples).
+
+**Exercício para Casa da Aula 03 (1º Grande Problema da Disciplina): Pensando por conta própria, escreva um algoritmo que receba como entrada: Um grafo não-direcionado G = (V,E), com V = {0, ..., n-1}, e Um vértice o ∈ V ("origem"), e que então retorne um vetor d[0..n-1] tal que, para todo v ∈ V, d[v] = δ(o,v) (portanto, o algoritmo deve retornar um vetor com as distâncias de "o" a todos os outros vértices do grafo).**
+
+Esse algoritmo é basicamente a busca em largura, onde você começa pela raíz (origem) e explora todos os vértices vizinhos.
