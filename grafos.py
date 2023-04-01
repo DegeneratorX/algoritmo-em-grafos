@@ -1,6 +1,7 @@
 from queue import Queue
 from collections import deque
 
+
 class Grafo:
     def __init__(self, lista_adj) -> None:
         self.lista_adj = lista_adj
