@@ -1,4 +1,5 @@
 import re
+import copy
 
 with open('instancia.in', 'r') as file:
     while(True):
@@ -40,5 +41,23 @@ for i in range(minimo, maximo):
     if i not in numeros:
         vertices_faltantes.append(i)
 
-print(vertices_faltantes)
+print(lista_adj)
 
+lista_adj_aux = copy.deepcopy(lista_adj)
+saida = []
+
+for i in range(len(lista_adj)):
+    for j in range(2):
+        lista_adj[i][]
+
+
+
+
+"""
+        primeiro = i[0]
+        ultimo = i[1]
+        for j in lista_adj_aux:
+            if i[0] == j[0] or i[0] == j[1] or i[1] == j[0] or i[1] == j[1]:
+                saida.append(list(set(i+j)).sort())
+print(saida)
+"""
