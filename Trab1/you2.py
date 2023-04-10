@@ -40,10 +40,9 @@ def bfs(start, graph, visited, component):
                 visited.add(neighbor)
                 queue.append(neighbor)
 
-for arqs in range(120):
-    print()
-    print(f"Arquivo {arqs}")
-    n, data = read_data(f"{arqs}.in")
-    components = find_connected_components(n, data)
-    write_data(components)
-    print()
+print()
+print(f"Arquivo 0")
+n, data = read_data(f"exemplos/instancias/0.in")
+components = find_connected_components(n, data)
+write_data(components)
+print()
