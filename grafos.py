@@ -37,7 +37,7 @@ class Grafo:
         return vertice_grau_maximo
     
 
-    def distance_graph_simple(self, o):
+    def bfs_com_distancias_pablo(self, o):
         n = len(self.__lista_adj)
         d = [float('inf')] * n
         d[o] = 0
@@ -81,7 +81,7 @@ class Grafo:
         return True
 
 
-    def bfs(self, origem):
+    def bfs_com_distancias(self, origem):
         # Inicializa as distâncias do vetor de distância com "infinito" de 
         # acordo com a quantidade de vértices possíveis. Isso é feito, pois
         # inicialmente não sabemos as distâncias.
@@ -110,6 +110,42 @@ class Grafo:
             # O algoritmo se torna mais fácil de entender quando desenhado no
             # papel.
         return distances
+    
+    
+    def bfs(self, origem):
+        # Crio uma lista com a mesma quantidade de vértices que diz, pelo index, se
+        # o vértice foi ou não visitado. O index dessa lista de visitados é o mesmo
+        # da lista de adjacências para vértices.
+        visitados = ["Não"] * len(self.__lista_adj)
+
+        # Inicio uma fila de prioridade com origem zero. A fila serve para 
+        # percorrer o grafo.
+        queue = [origem]
+
+        while queue: # Enquanto ela não estiver vazia
+
+            # O vértice atual recebe o primeiro da fila. Esse vértice é usado
+            # pra percorrer o grafo.
+            print(f"A fila está assim nesse momento: {queue}")
+            vertice_atual = queue.pop(0)
+
+            # Agora eu vou atrás dos vizinhos desse vértice atual que estou apontando
+            # agora.
+
+            print(f"Estou no vertice: {vertice_atual}")
+            for vizinho in self.__lista_adj[vertice_atual]:
+                print(f"Estou analisando o vizinho: {vizinho}")
+                # Procuro os possíveis vizinhos do vértice atual na lista de adj.
+                print(f"{vizinho} já foi visitado? {visitados[vizinho]}")
+                if visitados[vizinho] == "Não": # Se o vértice não foi visitado
+                    visitados[vizinho] = "Sim" # Agora passa a ser marcado como sendo.
+
+                    queue.append(vizinho) # Adiciono o vizinho na fila para depois ver os vizinhos do vizinho.
+                    print(f"Adiciono {vizinho} na fila dos que preciso percorrer.")
+            print()
+        print("\nPercorri todos os vértices da componente conexa em questão.")
+        print("Se tem algum vértice com 'Não', significa que está em uma componente conexa separada e inalcançável.")
+        return visitados
 
 
 lista_adj = [[1,4],
@@ -123,6 +159,21 @@ lista_adj = [[1,4],
              [0,1,2,3,4,5,6,7,9],
              [0,1,2,3,4,5,6,7,8],]
 
+lista_adj2 = [
+    [1,2,6,5],
+    [0],
+    [0],
+    [5,4],
+    [3,5,6],
+    [4,3,0],
+    [0,4],
+    [8],
+    [7],
+    [10,11,12],
+    [9],
+    [9,12],
+    [11,9]
+]
 
 lista_adj_estrela = [
     [1,2,3,4],
@@ -132,9 +183,8 @@ lista_adj_estrela = [
     [0],
 ]
 
-grafo = Grafo(lista_adj)
-grafo_estrela = Grafo(lista_adj_estrela)
+grafo = Grafo(lista_adj2)
 #print(grafo.vertice_de_grau_maximo())
-print(grafo.distance_graph_simple(2))
-print(grafo_estrela.is_star_graph())
-print(grafo_estrela.bfs(1))
+print(grafo.bfs_com_distancias_pablo(2))
+print(grafo.bfs_com_distancias(2))
+print("Vértices percorridos: ", grafo.bfs(2))

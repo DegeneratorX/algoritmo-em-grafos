@@ -105,7 +105,91 @@ ${(u,v) \in V\times V : u \neq v} = {(A,B),(B,A),(A,C),(C,A),(B,C),(C,B)}$
         return vertice_grau_maximo
 ```
 
-# Tipos de Grafos
+# Propriedade dos Grafos
+
+https://www.simplilearn.com/tutorials/data-structure-tutorial/graphs-in-data-structure
+
+Aqui irei detalhar formalmente algumas definições sobre grafos e suas propriedades, e depois traduzo cada uma para uma linguagem mais informal.
+
+### Grafo Simples e Múltiplo
+
+![](2023-04-17-18-56-50.png)
+
+- **Grafo Simples:** Um grafo $G = (V, E)$ é chamado de simples se não possui loops e nem arestas paralelas. Formalmente, $G$ é simples se $E$ não contém arestas repetidas ou pares $(v,v)$ com $v \in V$.
+
+Ou seja, se cada par de vértices no grafo tem só uma aresta, então é um grafo simples.
+
+- **Grafo Múltiplo:** Um grafo $G = (V, E)$ é chamado de múltiplo se contém pelo menos uma aresta paralela. Formalmente, $G$ é múltiplo se existem pelo menos dois elementos distintos $e_1, e_2 \in E$ tais que $e_1 = (u, v)$ e $e_2 = (u, v)$.
+
+Basicamente se tem multiplas arestas entre pares de vértices em um grafo, o grafo é um multigrafo. Porém, não existe loops no próprio vértice no multigrafo.
+
+### Grafo Completo, Regular e Nulo
+
+![](2023-04-17-19-07-29.png)
+
+- **Grafo Completo:** Um grafo $G = (V, E)$ é chamado de completo se toda par de vértices distintos em $V$ é conectado por uma aresta em $E$. Formalmente, $G$ é completo se, para todo par de vértices distintos $u, v \in V$, temos $(u, v) \in E$.
+
+Um grafo completo é um grafo simples. Basicamente todos os vértices são conectados a outros vértices, sem deixar nada sobrando, de tal forma que o grau de qualquer vértice precisa ser $num.vertices-1$ (pois ele não pode se autoconectar nesse caso).
+
+- **Grafo Regular:** Um grafo $G=(V,E)$ é dito regular se todos os seus vértices têm o mesmo grau $k$, ou seja, se $\forall v_i \in V$, $\text{deg}(v_i) = k$, onde $\text{deg}(v_i)$ representa o grau do vértice $v_i$ e $k$ é um número inteiro fixo.
+
+Sim, toda essa baboseira pra dizer que o grafo regular também é um grafo simples, e se ele tem graus iguais em todos os vértices, é um grafo regular.
+
+- **Grafo Nulo:** Um grafo $G = (V, E)$ é chamado de nulo se não contém nenhuma aresta. Formalmente, $G$ é nulo se $E = \emptyset$.
+
+A formalidade já é autoexplicativa. Se não existe arestas, então definimos como um grafo nulo.
+
+### Caminho, Passeio e Distância
+
+Dado um grafo $G = (V,E)$, não direcionado, e dados $u,v \in V$, temos:
+
+- **Passeio de $u$ a $v$**: é uma sequẽncia de vértices $x_0, x_1,...,x_k$ tal que:
+    - $k \ge 0$
+    - $x_0 = u$ e $x_k = v$
+    - Para todo $i \in \left\{1,...,k\right\}$, é válido que $\left\{x_{i-1}, x_i\right\} \in E$
+- **Caminho de $u$ a $v$**: é um passeio de $u$ a $v$ sem repetição de vértices (exceto no começo e fim, definido por **caminho fechado**).
+    - Ou seja, um passeio $x_0,...,x_k$ tal que para todo $i,j \in \left\{0,...,k\right\}$, se $i < j$, então $x_i \neq x_j$
+- **Distância de $u$ a $v$**: é o mínimo entre os números de arestas dos caminhos de $u$ a $v$.
+    - Ou seja, $\delta (u,v) = k_i$, se existe um caminho de $u$ a $v$ com $k$ arestas, e não existe caminho de $u$ a $v$ ccom menos de $k$ arestas. É infinito, se não existe caminho de $u$ a $v$.
+
+Basicamente passeio é um percorrimento qualquer sobre um grafo. Um passeio precisa de uma aresta, nem que seja uma conectando ao próprio vértice. Os vértices podem se repetir quantas vezes forem preciso.
+
+O caminho é um passeio em que os vértices não se repetem no meio da sequência de vértices. Ele pode se repetir somente do começo e final, e isso define o *caminho fechado*.
+
+A distância de um vértice a outro é definido sempre como o menor caminho possível. E se não existir, é definido como uma distância infinita.
+
+### Ciclo e Circuito
+
+- **Circuito:** Um circuito em um grafo $G = (V, E)$ é um caminho fechado $v_0, e_1, v_1, e_2, \ldots, v_{k-1}, e_k, v_0$, onde $v_0, v_1, \ldots, v_{k-1}$ são vértices distintos e $e_1, e_2, \ldots, e_k$ são arestas distintas. O número de arestas $k$ é chamado de comprimento do circuito.
+
+Basicamente um circuito é um caminho fechado em um grafo direcionado, mas o primeiro e o último vértice são iguais (ou seja, o caminho volta pro vértice inicial). Vértices podem se repetir.
+
+- **Ciclo:** Um ciclo em um grafo $G = (V, E)$ é um circuito simples $v_0, e_1, v_1, e_2, \ldots, v_{k-1}, e_k, v_0$, onde $v_0, v_1, \ldots, v_{k-1}$ são vértices distintos e $e_1, e_2, \ldots, e_k$ são arestas distintas. O número de arestas $k$ é chamado de comprimento do ciclo.
+
+Um ciclo é uma trilha que não passa por vértices ou arestas repetidos
+
+### Grafo Cíclico e Acíclico
+
+![](2023-04-17-19-16-09.png)
+
+- **Grafo Cíclico:** Um grafo $G = (V,E)$ é dito cíclico se contém um ciclo, ou seja, se existe um caminho $v_1,e_1,v_2,e_2,\ldots,v_k,e_k,v_1$, onde $v_1,\ldots,v_k$ são vértices distintos e $e_1,\ldots,e_k$ são arestas distintas, tal que $v_i \neq v_j$ e $e_i \neq e_j$ para todo $i \neq j$.
+
+Se um grafo contém pelo menos um Cíclo, então é um grafo cíclico.
+
+### Grafo Conexo e Desconexo
+
+![](2023-04-17-19-15-24.png)
+
+- **Grafo Conexo:** Um grafo $G = (V, E)$ é chamado de conexo se existe um caminho entre cada par de vértices distintos em $V$. Formalmente, $G$ é conexo se, para todo par de vértices distintos $u, v \in V$, existe um caminho que liga $u$ a $v$ em $G$.
+
+Se existe um caminho entre um vértice de um grafo e qualquer outro vértice, o grafo é conexo.
+
+- **Grafo Desconexo:** Um grafo $G = (V, E)$ é chamado de desconexo se não é conexo. Em outras palavras, $G$ é desconexo se existem pelo menos dois vértices em $V$ que não estão conectados por um caminho em $G$.
+
+Ou seja, quando não existe uma aresta ligando um grupo de vértices a outros grupos.
+
+
+# Tipos de Grafos 
 
 ## Árvores (Trees)
 
