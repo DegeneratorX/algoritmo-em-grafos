@@ -154,19 +154,23 @@ Dado um grafo $G = (V,E)$, não direcionado, e dados $u,v \in V$, temos:
 
 Basicamente passeio é um percorrimento qualquer sobre um grafo. Um passeio precisa de uma aresta, nem que seja uma conectando ao próprio vértice. Os vértices podem se repetir quantas vezes forem preciso.
 
-O caminho é um passeio em que os vértices não se repetem no meio da sequência de vértices. Ele pode se repetir somente do começo e final, e isso define o *caminho fechado*.
+O caminho é um passeio em que os vértices não se repetem na sequência de vértices.
 
 A distância de um vértice a outro é definido sempre como o menor caminho possível. E se não existir, é definido como uma distância infinita.
 
 ### Ciclo e Circuito
 
-- **Circuito:** Um circuito em um grafo $G = (V, E)$ é um caminho fechado $v_0, e_1, v_1, e_2, \ldots, v_{k-1}, e_k, v_0$, onde $v_0, v_1, \ldots, v_{k-1}$ são vértices distintos e $e_1, e_2, \ldots, e_k$ são arestas distintas. O número de arestas $k$ é chamado de comprimento do circuito.
-
-Basicamente um circuito é um caminho fechado em um grafo direcionado, mas o primeiro e o último vértice são iguais (ou seja, o caminho volta pro vértice inicial). Vértices podem se repetir.
-
 - **Ciclo:** Um ciclo em um grafo $G = (V, E)$ é um circuito simples $v_0, e_1, v_1, e_2, \ldots, v_{k-1}, e_k, v_0$, onde $v_0, v_1, \ldots, v_{k-1}$ são vértices distintos e $e_1, e_2, \ldots, e_k$ são arestas distintas. O número de arestas $k$ é chamado de comprimento do ciclo.
 
-Um ciclo é uma trilha que não passa por vértices ou arestas repetidos
+Basicamente um circuito é um percorrimento fechado em um grafo não direcionado, mas o primeiro e o último vértice são iguais (ou seja, o caminho volta pro vértice inicial). Vértices e arestas não podem se repetir.
+
+- **Circuito:** Dado um grafo direcionado $G = (V,E)$, um circuito  em G é uma sequẽncia $v_0, v_1, v_2,...,v_k$ de vértices tal que:
+    - $k \geq 2;$
+    - $\forall i \in [1...k]$, $(v_{i-1}, v_i) \in E$
+    - $\forall i,j \in [0..k]$, se $i < j$ e $v_i = v_j$, então $i = 0$ e $j = k$;
+    - $v_0 = v_k$.
+
+Um circuito é comparável ao ciclo, porém a diferença é que ele é aplicável a grafos direcionados apenas.
 
 ### Grafo Cíclico e Acíclico
 
@@ -175,6 +179,10 @@ Um ciclo é uma trilha que não passa por vértices ou arestas repetidos
 - **Grafo Cíclico:** Um grafo $G = (V,E)$ é dito cíclico se contém um ciclo, ou seja, se existe um caminho $v_1,e_1,v_2,e_2,\ldots,v_k,e_k,v_1$, onde $v_1,\ldots,v_k$ são vértices distintos e $e_1,\ldots,e_k$ são arestas distintas, tal que $v_i \neq v_j$ e $e_i \neq e_j$ para todo $i \neq j$.
 
 Se um grafo contém pelo menos um Cíclo, então é um grafo cíclico.
+
+- **Grafo Acíclico:**  Um grafo $G = (V,E)$ é dito acíclico se não contém nenhum ciclo, ou seja, se para todo caminho $v_1,e_1,v_2,e_2,\ldots,v_k,e_k,v_1$, onde $v_1,\ldots,v_k$ são vértices distintos e $e_1,\ldots,e_k$ são arestas distintas, temos que $v_i \neq v_j$ e $e_i \neq e_j$ para todo $i \neq j$ implica que $k \leq 2$.
+
+Se um grafo não contém pelo menos um ciclo, então ele é acíclico.
 
 ### Grafo Conexo e Desconexo
 
@@ -188,34 +196,34 @@ Se existe um caminho entre um vértice de um grafo e qualquer outro vértice, o 
 
 Ou seja, quando não existe uma aresta ligando um grupo de vértices a outros grupos.
 
+### Subgrafo
 
-# Tipos de Grafos 
+![](2023-04-18-09-21-55.png)
 
-## Árvores (Trees)
+- **Subgrafo:** Um grafo $G' = (V',E')$ é dito subgrafo de um grafo $G = (V,E)$ se $V' \subseteq V$ e $E' \subseteq E$, ou seja, se os vértices e as arestas de $G'$ estão contidos nos vértices e arestas de $G$, respectivamente. Podemos escrever isso como:
+
+$$G' \subseteq G \Leftrightarrow V' \subseteq V, E' \subseteq E
+$$
+
+### Árvores (Trees)
 
 Árvore é um grafo não direcionado aciclico conexo.
 
 ![](2023-03-13-13-09-11.png)
 
-## Floresta (Forest)
+### Floresta (Forest)
 
 Florestas são grafos onde todos os componentes conectados são árvores.
 
 ![](2023-03-13-16-43-52.png)
 
-## Grafos acíclicos direcionados (Directed Acyclic Graph - DAG)
+### Grafos acíclicos direcionados (Directed Acyclic Graph - DAG)
 
 É um grafo finito direcionado sem 'ciclos direcionados' (crucial em muitos algoritmos).
 
 ![](2023-03-13-16-45-00.png)
 
 Se um grafo não possui ciclos, então dá pra resolver muitos problemas de forma muito rápida. Por exemplo, o algoritmo de menor caminho pode ser resolvido em tempo O(n) graças a isso.
-
-## Grafo Completo (Complete Graph)
-
-É um grafo onde todos os vértices se conectam entre si. Ou seja, todas as possibilidades de pares de vértices são possiveis e existentes no conjunto de arestas.
-
-![](2023-03-13-16-47-08.png)
 
 # Representação Computacional dos Grafos
 
