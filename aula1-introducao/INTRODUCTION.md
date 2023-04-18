@@ -162,7 +162,7 @@ A distância de um vértice a outro é definido sempre como o menor caminho poss
 
 - **Ciclo:** Um ciclo em um grafo $G = (V, E)$ é um circuito simples $v_0, e_1, v_1, e_2, \ldots, v_{k-1}, e_k, v_0$, onde $v_0, v_1, \ldots, v_{k-1}$ são vértices distintos e $e_1, e_2, \ldots, e_k$ são arestas distintas. O número de arestas $k$ é chamado de comprimento do ciclo.
 
-Basicamente um circuito é um percorrimento fechado em um grafo não direcionado, mas o primeiro e o último vértice são iguais (ou seja, o caminho volta pro vértice inicial). Vértices e arestas não podem se repetir.
+Basicamente um ciclo é um percorrimento fechado (alguns chamam de caminho fechado) em um grafo não direcionado, mas o primeiro e o último vértice são iguais (ou seja, o caminho volta pro vértice inicial). Vértices e arestas do meio da sequência não podem se repetir.
 
 - **Circuito:** Dado um grafo direcionado $G = (V,E)$, um circuito  em G é uma sequẽncia $v_0, v_1, v_2,...,v_k$ de vértices tal que:
     - $k \geq 2;$
@@ -170,7 +170,7 @@ Basicamente um circuito é um percorrimento fechado em um grafo não direcionado
     - $\forall i,j \in [0..k]$, se $i < j$ e $v_i = v_j$, então $i = 0$ e $j = k$;
     - $v_0 = v_k$.
 
-Um circuito é comparável ao ciclo, porém a diferença é que ele é aplicável a grafos direcionados apenas.
+Um circuito é comparável ao ciclo, porém a diferença é que ele é aplicável a grafos direcionados apenas. Ou seja, é um percorrimento qualquer sobre um grafo direcionado, onde o primeiro e o último vértice são iguais (ou seja, o caminho volta pro vértice inicial). Vértices e arestas do meio da sequência não podem se repetir.
 
 ### Grafo Cíclico e Acíclico
 
