@@ -77,7 +77,9 @@ Um grafo direcionado G(V,E) é um conjunto de vértices e arestas onde pelo meno
 ![](2023-03-24-15-40-58.png)
 
 $V$ = {A,B,C}
+
 $E$ = {(A,C),(A,B)}$
+
 ${(u,v) \in V\times V : u \neq v} = {(A,B),(B,A),(A,C),(C,A),(B,C),(C,B)}$
 
 - Numa arsta (u,v), $u$ é a origem, $v$ é o destino, e a aresta é dita sair de $u$ e chegar em $v$;
