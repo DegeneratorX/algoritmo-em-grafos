@@ -162,7 +162,10 @@ A distância de um vértice a outro é definido sempre como o menor caminho poss
 
 ### Ciclo e Circuito
 
-- **Ciclo:** Um ciclo em um grafo $G = (V, E)$ é um circuito simples $v_0, e_1, v_1, e_2, \ldots, v_{k-1}, e_k, v_0$, onde $v_0, v_1, \ldots, v_{k-1}$ são vértices distintos e $e_1, e_2, \ldots, e_k$ são arestas distintas. O número de arestas $k$ é chamado de comprimento do ciclo.
+- **Ciclo:** Dado um grafo não direcionado G = (V,E), um cicl é uma sequência de vértices $(v_0, v_1,...,v_k)$ tal que:
+    - Vértices sucessivos são vizinhos, ou seja, para todo $i \in \{1,...,k\}$, $\{v_{i-1}, v_i\} \in E$;
+    - Não há repetição de vértices, exceto que o último é igual ao primeiro, ou seja, para quaisquer $i$ e $j$ tais que $0 \le i < j \le k$, $v_i = v_j$ se e somente se $i = 0$ e $j = k$;
+    - Há pelo menos 3 vértices na sequência, ou seja, $k \ge 3$.
 
 Basicamente um ciclo é um percorrimento fechado (alguns chamam de caminho fechado) em um grafo não direcionado, mas o primeiro e o último vértice são iguais (ou seja, o caminho volta pro vértice inicial). Vértices e arestas do meio da sequência não podem se repetir.
 

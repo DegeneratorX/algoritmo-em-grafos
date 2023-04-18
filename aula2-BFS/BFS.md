@@ -115,3 +115,15 @@ def bfs(origem, visitados, componente):
                 # mas n queremos repetição, por isso usamos set.
                 fila.append(vizinho)
 ```
+
+
+### TODO: Estudar Invariante de Laço
+
+https://www.youtube.com/watch?v=AQ7A2Z0TdM4&ab_channel=CarlaQuemDisse
+
+### TODO: Fazer 3 exercícios:
+
+- Grau máximo do G
+- Todos os graus de G
+- Se tem ciclo em um grafo
+- Retornar ciclos de um grafo

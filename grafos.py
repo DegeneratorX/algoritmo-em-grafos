@@ -147,6 +147,45 @@ class Grafo:
         print("Se tem algum vértice com 'Não', significa que está em uma componente conexa separada e inalcançável.")
         return visitados
 
+    def tem_ciclo(self):
+        visitados = ["Não"] * len(self.__lista_adj)
+    
+        for i in range(len(self.__lista_adj)):
+            if visitados[i] == "Não":
+
+                # BFS
+
+                visitados[i] = "Sim"
+                fila = [i]
+                pais = {i}
+                while fila:
+                    vertice_atual = fila.pop(0)
+                    for vizinho in self.__lista_adj[vertice_atual]:
+                        if vizinho not in pais:
+                            if vizinho not in visitados:
+                                visitados[vizinho] = "Sim"
+                                fila.append(vizinho)
+                                pais.add(vizinho)
+                            else:
+                                return True
+                            
+        return False
+
+
+    def have_cycle(self):
+        visitados = [False] * len(self.__lista_adj)
+        pais = [-1] * len(self.__lista_adj)
+
+        for i in range(len(self.__lista_adj)):
+            for vizinho in self.__lista_adj[i]:
+                if visitados[vizinho] == True:
+                    if vizinho != pais[i]:
+                        return True
+                else:
+                    pais[vizinho] = i
+            visitados[i] = True
+        return False
+
 
 lista_adj = [[1,4],
              [0,5],
@@ -175,6 +214,15 @@ lista_adj2 = [
     [11,9]
 ]
 
+lista_adj3 = [
+    [1,4,5],
+    [0,2],
+    [1,3],
+    [2,4],
+    [3,0],
+    [0]
+]
+
 lista_adj_estrela = [
     [1,2,3,4],
     [0],
@@ -183,8 +231,9 @@ lista_adj_estrela = [
     [0],
 ]
 
-grafo = Grafo(lista_adj2)
+grafo = Grafo(lista_adj3)
 #print(grafo.vertice_de_grau_maximo())
 print(grafo.bfs_com_distancias_pablo(2))
 print(grafo.bfs_com_distancias(2))
 print("Vértices percorridos: ", grafo.bfs(2))
+print(f"Tem ciclo: {grafo.tem_ciclo()}")
