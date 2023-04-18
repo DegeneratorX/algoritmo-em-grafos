@@ -98,5 +98,4 @@ def componentes_conexas(self):
             componentes.append(sorted(componente))
 
     return componentes
-
 ```
