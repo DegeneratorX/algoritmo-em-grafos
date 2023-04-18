@@ -196,6 +196,8 @@ Se existe um caminho entre um vértice de um grafo e qualquer outro vértice, o 
 
 Ou seja, quando não existe uma aresta ligando um grupo de vértices a outros grupos.
 
+>Nota: um grafo pode ser chamado de componente conexa. E se o grafo for desconexo, existe pelo menos 2 componentes conexas. Exemplo da imagem, temos 2 componentes conexas no grafo desconexo, e 1 componente no grafo conexo. Um único vértice sem arestas é uma componente conexa.
+
 ### Subgrafo
 
 ![](2023-04-18-09-21-55.png)

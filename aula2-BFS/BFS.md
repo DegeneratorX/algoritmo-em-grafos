@@ -2,7 +2,6 @@
 
 Existem vários algoritmos que percorrem de forma otimizada um grafo. Um deles é a **busca em largura** (Breadth First Search - BFS). Mas antes é necessário definir algumas coisas.
 
-
 # Breadth First Search - BFS (Busca em Largura)
 
 A busca em largura percorre o grafo de forma paralela, partindo de um vértice de origem, checando os vizinhos, e checando os vizinhos dos vizinhos até não sobrar mais vértices. O algoritmo usa uma fila para armazenar vértices que serão os próximos a serem analisados na sequẽncia.
@@ -77,4 +76,27 @@ Esse algoritmo retorna uma lista contendo as distâncias de cada vértice a part
 
 ### Algoritmo BFS: achar componentes conexas
 
-É possível sim que o BFS não percorra todos os vértices, 
+É possível sim que o BFS não percorra todos os vértices, principalmente quando envolve grafos desconexos (propriedade mostrada na INTRODUCTION.md).
+
+Ou seja, o BFS, em uma chamada só, percorre apenas uma componente conexa a partir de uma origem caso não exista pelo menos uma ponte que ligue uma componente conexa a outra.
+
+Portanto, precisamos testar todos os vértices para que sejam, em algum momento, a origem no BFS, para que não falte analisar todas as componentes conexas, e assim percorremos o grafo por inteiro, mesmo ele despedaçado. Então precisamos fazer um outro loop para cada vértice na lista de ajdacências.
+
+```python
+# Algoritmo de achar componentes conexas.
+def componentes_conexas(self):
+    visitados = set()
+    componentes = []
+
+    # Esse "for", por mais que pareça inútil, garante que TODOS os vértices 
+    # foram percorridos, mesmo que tenha um vértice único isolado, pois um 
+    # vértice isolado é uma componente.
+    for i in range(len(self.__lista_adj)):
+        if i not in visitados:
+            componente = set()
+            bfs(i, lista_adj, visitados, componente)
+            componentes.append(sorted(componente))
+
+    return componentes
+
+```
