@@ -48,7 +48,7 @@ def tratamento_dos_dados(linhas):
 
 # ALGORITMO DE BUSCA EM LARGURA
 def bfs(origem, lista_adj, visitados, componente):
-    visitados.add(origem)
+
     fila = [origem]
 
     while fila:
@@ -91,6 +91,7 @@ def componentes_conexas(lista_de_arestas, num_vertices):
     for i in range(num_vertices):
         if i not in visitados:
             componente = set()
+            visitados.add(i)
             bfs(i, lista_adj, visitados, componente)
             componentes.append(sorted(componente))
 

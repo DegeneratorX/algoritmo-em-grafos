@@ -174,7 +174,7 @@ Um circuito é comparável ao ciclo, porém a diferença é que ele é aplicáve
 
 ### Grafo Cíclico e Acíclico
 
-![](2023-04-17-19-16-09.png)
+![](2023-04-18-12-38-19.png)
 
 - **Grafo Cíclico:** Um grafo $G = (V,E)$ é dito cíclico se contém um ciclo, ou seja, se existe um caminho $v_1,e_1,v_2,e_2,\ldots,v_k,e_k,v_1$, onde $v_1,\ldots,v_k$ são vértices distintos e $e_1,\ldots,e_k$ são arestas distintas, tal que $v_i \neq v_j$ e $e_i \neq e_j$ para todo $i \neq j$.
 

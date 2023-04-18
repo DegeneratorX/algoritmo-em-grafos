@@ -86,16 +86,32 @@ Portanto, precisamos testar todos os vértices para que sejam, em algum momento,
 # Algoritmo de achar componentes conexas.
 def componentes_conexas(self):
     visitados = set()
-    componentes = []
+    lista_de_componentes = []
 
     # Esse "for", por mais que pareça inútil, garante que TODOS os vértices 
-    # foram percorridos, mesmo que tenha um vértice único isolado, pois um 
+    # sejam percorridos, mesmo que tenha um vértice único isolado, pois um 
     # vértice isolado é uma componente.
-    for i in range(len(self.__lista_adj)):
-        if i not in visitados:
-            componente = set()
-            bfs(i, lista_adj, visitados, componente)
-            componentes.append(sorted(componente))
+    for i in range(len(self.__lista_adj)): # Pra cada vértice
+        if i not in visitados: # Se o vértice não foi visitado
+            componente = set() # Começo a escrever o que tem dentro da componente conexa partindo do zero.
+            bfs(i, visitados, componente) # Percorro a componente inteira. Componente e visitados são passados por referência em python (listas e sets).
+            lista_de_componentes.append(sorted(componente)) # a componente agora está completa.
 
-    return componentes
+    return lista_de_componentes # Retorno todas as componentes do grafo.
+
+def bfs(origem, visitados, componente):
+    visitados.add(origem) # Marco como visitado e adiciono ao conjunto
+    fila = [origem]
+
+    while fila:
+        vertice_atual = fila.pop(0)
+        componente.add(vertice_atual) # Marco como parte da componente conexa o primeiro e subsequentes vértices
+        for vizinho in lista_adj[vertice_atual]:
+            if vizinho not in visitados:
+                visitados.add(vizinho) # Marco vizinhos como visitados (para prevenir iterações futuras desnecessárias)
+                # e adiciono ao conjunto.
+                # Obviamente, usamos conjuntos pq os valores VÃO se repetir, 
+                # pois de novo será visitado os vértices, 
+                # mas n queremos repetição, por isso usamos set.
+                fila.append(vizinho)
 ```
