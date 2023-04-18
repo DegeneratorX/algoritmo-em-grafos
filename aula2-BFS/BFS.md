@@ -111,7 +111,7 @@ def bfs(origem, visitados, componente):
                 visitados.add(vizinho) # Marco vizinhos como visitados (para prevenir iterações futuras desnecessárias)
                 # e adiciono ao conjunto.
                 # Obviamente, usamos conjuntos pq os valores VÃO se repetir, 
-                # pois de novo será visitado os vértices, 
+                # pois de novo será visitada outras origens (o bfs será executado n vezes), 
                 # mas n queremos repetição, por isso usamos set.
                 fila.append(vizinho)
 ```
