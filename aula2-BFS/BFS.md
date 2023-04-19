@@ -118,29 +118,45 @@ def bfs(origem, visitados, componente):
 
 ```python
 # Algoritmo que retorna True ou False se detectar ou não um ciclo no grafo
-    def tem_ciclo(self):
-        visitados = ["Não"] * len(self.__lista_adj)
-        pais = [None] * len(self.__lista_adj)
+def tem_ciclo(self):
 
-        for i in range(len(self.__lista_adj)):
-            if visitados[i] == "Não":
+    visitados = ["Não"] * len(self.__lista_adj)
 
-                # BFS
+    # Crio uma lista do tamanho da lista de adj contendo os pais de cada vértice
+    # percorrido na ordem do BFS.
+    # Ou seja, cada indice representa o número do vértice, e o valor atrelado
+    # ao índice é o seu pai por onde o BFS foi percorrendo.
+    pais = [None] * len(self.__lista_adj)
 
-                visitados[i] = "Sim"
-                fila = [i]
-                pais[i] = i
-                while fila:
-                    vertice_atual = fila.pop(0)
-                    for vizinho in self.__lista_adj[vertice_atual]:
-                        if visitados[vizinho] == "Não":
-                            visitados[vizinho] = "Sim"
-                            fila.append(vizinho)
-                            pais[vizinho] = vertice_atual
-                        elif pais[vertice_atual] != vizinho:
-                            return True
-                            
-        return False
+    # Percorro todos os vértices (origens), mesmo que o grafo seja desconexo
+    for i in range(len(self.__lista_adj)):
+        if visitados[i] == "Não":
+            visitados[i] = "Sim"
+
+            # BFS
+            fila = [i]
+            pais[i] = i # Obviamente o pai do vértice de origem não existe, é "ele mesmo."
+            while fila:
+                vertice_atual = fila.pop(0)
+                for vizinho in self.__lista_adj[vertice_atual]:
+                    if visitados[vizinho] == "Não":
+                        visitados[vizinho] = "Sim"
+                        fila.append(vizinho)
+                        # Aqui já pego o pai do vizinho (proximo) e guardo, que é o próprio vértice
+                        # que dei dequeue e estou analisando.
+                        pais[vizinho] = vertice_atual
+
+                    # Se o vértice já foi visitado, existe uma chance disso ser
+                    # um ciclo. Mas pra verificar 100% (pois pode ser que eu
+                    # esteja analisando o próprio pai do atual que já foi visitado,
+                    # e isso não é um ciclo), eu preciso saber se o pai do vértice 
+                    # atual é diferente de um vizinho.
+                    elif pais[vertice_atual] != vizinho:
+                        return True # Se for, significa que de alguma forma eu alcancei um vértice já visitado
+                        # de outra forma que não foi "voltando", o que de imediato entrega que é um ciclo.
+
+    # Após iterar sobre todos os vértices possíveis, se nada acontecer, não existe ciclo.
+    return False
 ```
 ### TODO: Estudar Invariante de Laço
 

@@ -7,16 +7,8 @@ class Grafo:
         self.__lista_adj = __lista_adj
         self.num_vertices = len(__lista_adj)
 
-
-    def _numero_de_vertices(self):
-        num = 0
-        for i in self.__lista_adj:
-            num += 1
-
-
     def set_vizinho(self, vertice, vizinho):
         self.__lista_adj[vertice].append(vizinho)
-
 
     def get_vizinhos(self, vertice):
         return self.__lista_adj[vertice]
@@ -35,7 +27,6 @@ class Grafo:
                 vertice_grau_maximo = vertice
 
         return vertice_grau_maximo
-    
 
     def bfs_com_distancias_pablo(self, o):
         n = len(self.__lista_adj)
@@ -49,7 +40,6 @@ class Grafo:
                     d[v] = d[u] + 1
                     queue.append(v)
         return d
-
 
     def is_star_graph(self):
         vertices_centrais = [] # Crio uma lista para guardar potenciais "centro(s)" do grafo
@@ -80,7 +70,6 @@ class Grafo:
         # então não resta dúvidas que é um grafo estrela.
         return True
 
-
     def bfs_com_distancias(self, origem):
         # Inicializa as distâncias do vetor de distância com "infinito" de 
         # acordo com a quantidade de vértices possíveis. Isso é feito, pois
@@ -110,7 +99,6 @@ class Grafo:
             # O algoritmo se torna mais fácil de entender quando desenhado no
             # papel.
         return distances
-    
     
     def bfs(self, origem):
         # Crio uma lista com a mesma quantidade de vértices que diz, pelo index, se
@@ -148,6 +136,7 @@ class Grafo:
         return visitados
 
     def tem_ciclo(self):
+
         visitados = ["Não"] * len(self.__lista_adj)
         pais = [None] * len(self.__lista_adj)
 
@@ -155,7 +144,6 @@ class Grafo:
             if visitados[i] == "Não":
 
                 # BFS
-
                 visitados[i] = "Sim"
                 fila = [i]
                 pais[i] = i
@@ -223,6 +211,15 @@ lista_adj3 = [
     [0]
 ]
 
+lista_adj4 = [
+    [1],
+    [0,2,5],
+    [1,3],
+    [2,4],
+    [3,5],
+    [4,1]
+]
+
 lista_adj_estrela = [
     [1,2,3,4],
     [0],
@@ -231,7 +228,7 @@ lista_adj_estrela = [
     [0],
 ]
 
-grafo = Grafo(lista_adj3)
+grafo = Grafo(lista_adj4)
 #print(grafo.vertice_de_grau_maximo())
 print(grafo.bfs_com_distancias_pablo(2))
 print(grafo.bfs_com_distancias(2))
