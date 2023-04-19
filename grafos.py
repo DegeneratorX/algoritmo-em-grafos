@@ -27,6 +27,15 @@ class Grafo:
                 vertice_grau_maximo = vertice
 
         return vertice_grau_maximo
+    
+    def graus_da_lista(self):
+        graus = [0] * len(self.__lista_adj)
+        for vertice in range(len(self.__lista_adj)):
+            grau = 0
+            for vizinho in self.__lista_adj[vertice]:
+                grau+=1
+            graus[vertice] = grau
+        return graus
 
     def bfs_com_distancias_pablo(self, o):
         n = len(self.__lista_adj)
@@ -159,7 +168,6 @@ class Grafo:
                             
         return False
 
-
     def have_cycle(self):
         visitados = [False] * len(self.__lista_adj)
         pais = [-1] * len(self.__lista_adj)
@@ -234,3 +242,4 @@ print(grafo.bfs_com_distancias_pablo(2))
 print(grafo.bfs_com_distancias(2))
 print("Vértices percorridos: ", grafo.bfs(2))
 print(f"Tem ciclo: {grafo.tem_ciclo()}")
+print(f"Lista de graus: {grafo.graus_da_lista()}")
