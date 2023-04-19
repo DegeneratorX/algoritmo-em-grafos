@@ -116,7 +116,34 @@ def bfs(origem, visitados, componente):
                 fila.append(vizinho)
 ```
 
+### Algoritmo BFS: Achar se é verdade que o grafo tem pelo menos um ciclo
 
+```python
+# Algoritmo que retorna True ou False se detectar ou não um ciclo no grafo
+    def tem_ciclo(self):
+        visitados = ["Não"] * len(self.__lista_adj)
+        pais = [None] * len(self.__lista_adj)
+
+        for i in range(len(self.__lista_adj)):
+            if visitados[i] == "Não":
+
+                # BFS
+
+                visitados[i] = "Sim"
+                fila = [i]
+                pais[i] = i
+                while fila:
+                    vertice_atual = fila.pop(0)
+                    for vizinho in self.__lista_adj[vertice_atual]:
+                        if visitados[vizinho] == "Não":
+                            visitados[vizinho] = "Sim"
+                            fila.append(vizinho)
+                            pais[vizinho] = vertice_atual
+                        elif pais[vertice_atual] != vizinho:
+                            return True
+                            
+        return False
+```
 ### TODO: Estudar Invariante de Laço
 
 https://www.youtube.com/watch?v=AQ7A2Z0TdM4&ab_channel=CarlaQuemDisse

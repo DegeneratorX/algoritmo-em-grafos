@@ -149,7 +149,8 @@ class Grafo:
 
     def tem_ciclo(self):
         visitados = ["Não"] * len(self.__lista_adj)
-    
+        pais = [None] * len(self.__lista_adj)
+
         for i in range(len(self.__lista_adj)):
             if visitados[i] == "Não":
 
@@ -157,17 +158,16 @@ class Grafo:
 
                 visitados[i] = "Sim"
                 fila = [i]
-                pais = {i}
+                pais[i] = i
                 while fila:
                     vertice_atual = fila.pop(0)
                     for vizinho in self.__lista_adj[vertice_atual]:
-                        if vizinho not in pais:
-                            if vizinho not in visitados:
-                                visitados[vizinho] = "Sim"
-                                fila.append(vizinho)
-                                pais.add(vizinho)
-                            else:
-                                return True
+                        if visitados[vizinho] == "Não":
+                            visitados[vizinho] = "Sim"
+                            fila.append(vizinho)
+                            pais[vizinho] = vertice_atual
+                        elif pais[vertice_atual] != vizinho:
+                            return True
                             
         return False
 
