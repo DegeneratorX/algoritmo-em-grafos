@@ -1,8 +1,6 @@
-# Introdução
-
-Existem vários algoritmos que percorrem de forma otimizada um grafo. Um deles é a **busca em largura** (Breadth First Search - BFS). Mas antes é necessário definir algumas coisas.
-
 # Breadth First Search - BFS (Busca em Largura)
+
+Existem vários algoritmos que percorrem de forma otimizada um grafo. Um deles é a **busca em largura** (Breadth First Search - BFS). 
 
 A busca em largura percorre o grafo de forma paralela, partindo de um vértice de origem, checando os vizinhos, e checando os vizinhos dos vizinhos até não sobrar mais vértices. O algoritmo usa uma fila para armazenar vértices que serão os próximos a serem analisados na sequẽncia.
 
