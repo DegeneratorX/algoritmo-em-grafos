@@ -7,8 +7,16 @@ class Grafo:
         self.__lista_adj = __lista_adj
         self.num_vertices = len(__lista_adj)
 
+
+    def _numero_de_vertices(self):
+        num = 0
+        for i in self.__lista_adj:
+            num += 1
+
+
     def set_vizinho(self, vertice, vizinho):
         self.__lista_adj[vertice].append(vizinho)
+
 
     def get_vizinhos(self, vertice):
         return self.__lista_adj[vertice]
@@ -27,15 +35,7 @@ class Grafo:
                 vertice_grau_maximo = vertice
 
         return vertice_grau_maximo
-    
-    def graus_da_lista(self):
-        graus = [0] * len(self.__lista_adj)
-        for vertice in range(len(self.__lista_adj)):
-            grau = 0
-            for vizinho in self.__lista_adj[vertice]:
-                grau+=1
-            graus[vertice] = grau
-        return graus
+
 
     def bfs_com_distancias_pablo(self, o):
         n = len(self.__lista_adj)
@@ -50,21 +50,22 @@ class Grafo:
                     queue.append(v)
         return d
 
+
     def is_star_graph(self):
         vertices_centrais = [] # Crio uma lista para guardar potenciais "centro(s)" do grafo
-        
+
         for i in range(self.num_vertices): # Itero sobre os vértices do grafo
-            # Se o vértice tem o número de vizinhos igual ao de vértices-1 
+            # Se o vértice tem o número de vizinhos igual ao de vértices-1
             # (pois não pode ser vizinho dele mesmo), então é um vértice central.
-            if len(self.__lista_adj[i]) == self.num_vertices-1: 
+            if len(self.__lista_adj[i]) == self.num_vertices-1:
                 vertices_centrais.append(i)
-        
-        # Depois verifico nas iterações se ele veio vazio, e se sim, imediatamente 
-        # sabe-se que não é uma estrela, pois não tem um ponto central que 
+
+        # Depois verifico nas iterações se ele veio vazio, e se sim, imediatamente
+        # sabe-se que não é uma estrela, pois não tem um ponto central que
         # conecta a todos os outros vértices.
-        if len(vertices_centrais) == 0: 
+        if len(vertices_centrais) == 0:
             return False
-        
+
         # De novo, itero sobre a lista de adjacências e os vértices
         for i in range(self.num_vertices):
             # Se o índice não é um nó central, já dá pra verificar as outras condições
@@ -74,19 +75,20 @@ class Grafo:
             # conectado a outro vértice aleatório.
             if i not in vertices_centrais and (len(self.__lista_adj[i]) != 1 or self.__lista_adj[i][0] not in vertices_centrais):
                 return False # Então retorna falso.
-            
+
         # Se todas as condições de barrar um grafo não estrela forem superadas,
         # então não resta dúvidas que é um grafo estrela.
         return True
 
+
     def bfs_com_distancias(self, origem):
-        # Inicializa as distâncias do vetor de distância com "infinito" de 
+        # Inicializa as distâncias do vetor de distância com "infinito" de
         # acordo com a quantidade de vértices possíveis. Isso é feito, pois
         # inicialmente não sabemos as distâncias.
         distances = [float("inf")] * len(self.__lista_adj)
         distances[origem] = 0 # Defino a distância para a própria origem como zero.
 
-        # Inicio uma fila de prioridade com origem zero. A fila serve para 
+        # Inicio uma fila de prioridade com origem zero. A fila serve para
         # percorrer o grafo.
         queue = [origem]
 
@@ -101,21 +103,22 @@ class Grafo:
             for neighbor in self.__lista_adj[curr_node]:
 
                 # Se o vizinho não foi visitado ainda, a distância é atualizada
-                # da seguinte forma: 
+                # da seguinte forma:
                 if distances[neighbor] == float("inf"):
                     distances[neighbor] = distances[curr_node] + 1
                     queue.append(neighbor)
             # O algoritmo se torna mais fácil de entender quando desenhado no
             # papel.
         return distances
-    
+
+
     def bfs(self, origem):
         # Crio uma lista com a mesma quantidade de vértices que diz, pelo index, se
         # o vértice foi ou não visitado. O index dessa lista de visitados é o mesmo
         # da lista de adjacências para vértices.
         visitados = ["Não"] * len(self.__lista_adj)
 
-        # Inicio uma fila de prioridade com origem zero. A fila serve para 
+        # Inicio uma fila de prioridade com origem zero. A fila serve para
         # percorrer o grafo.
         queue = [origem]
 
@@ -145,28 +148,29 @@ class Grafo:
         return visitados
 
     def tem_ciclo(self):
-
         visitados = ["Não"] * len(self.__lista_adj)
-        pais = [None] * len(self.__lista_adj)
 
         for i in range(len(self.__lista_adj)):
             if visitados[i] == "Não":
 
                 # BFS
+
                 visitados[i] = "Sim"
                 fila = [i]
-                pais[i] = i
+                pais = {i}
                 while fila:
                     vertice_atual = fila.pop(0)
                     for vizinho in self.__lista_adj[vertice_atual]:
-                        if visitados[vizinho] == "Não":
-                            visitados[vizinho] = "Sim"
-                            fila.append(vizinho)
-                            pais[vizinho] = vertice_atual
-                        elif pais[vertice_atual] != vizinho:
-                            return True
-                            
+                        if vizinho not in pais:
+                            if vizinho not in visitados:
+                                visitados[vizinho] = "Sim"
+                                fila.append(vizinho)
+                                pais.add(vizinho)
+                            else:
+                                return True
+
         return False
+
 
     def have_cycle(self):
         visitados = [False] * len(self.__lista_adj)
@@ -219,15 +223,6 @@ lista_adj3 = [
     [0]
 ]
 
-lista_adj4 = [
-    [1],
-    [0,2,5],
-    [1,3],
-    [2,4],
-    [3,5],
-    [4,1]
-]
-
 lista_adj_estrela = [
     [1,2,3,4],
     [0],
@@ -236,10 +231,9 @@ lista_adj_estrela = [
     [0],
 ]
 
-grafo = Grafo(lista_adj4)
+grafo = Grafo(lista_adj3)
 #print(grafo.vertice_de_grau_maximo())
 print(grafo.bfs_com_distancias_pablo(2))
 print(grafo.bfs_com_distancias(2))
 print("Vértices percorridos: ", grafo.bfs(2))
 print(f"Tem ciclo: {grafo.tem_ciclo()}")
-print(f"Lista de graus: {grafo.graus_da_lista()}")
