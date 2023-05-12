@@ -187,8 +187,7 @@ Se um grafo contém pelo menos um Cíclo, então é um grafo cíclico.
 
 - **Grafo Acíclico:**  Um grafo $G = (V,E)$ é dito acíclico se não contém nenhum ciclo, ou seja, se para todo caminho $v_1,e_1,v_2,e_2,\ldots,v_k,e_k,v_1$, onde $v_1,\ldots,v_k$ são vértices distintos e $e_1,\ldots,e_k$ são arestas distintas, temos que $v_i \neq v_j$ e $e_i \neq e_j$ para todo $i \neq j$ implica que $k \leq 2$.
 
-Se um grafo não contém pelo menos um ciclo, então ele é acíclico.
-
+Se um grafo não contém pelo menos um ciclo, então ele é acíclico
 ### Grafo Conexo e Desconexo
 
 ![](2023-04-17-19-15-24.png)
