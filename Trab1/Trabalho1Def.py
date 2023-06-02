@@ -5,7 +5,7 @@
 
 # LEITURA VIA ARQUIVO
 def leitura_do_arquivo(arquivo):
-    with open(f'exemplos/instancias/{arquivo}.in', 'r') as file:
+    with open(f'Trab1/exemplos/instancias/{arquivo}.in', 'r') as file:
         while (True):
             if file.read() == '':  # Se arquivo vazio
                 exit(1)
@@ -70,15 +70,15 @@ def componentes_conexas(lista_de_arestas, num_vertices):
     # Lembrando que a lista de adjacências vai de 0 a n-1.
     lista_adj = []
     for i in range(num_vertices):
-        lista_adj.append(set())
+        lista_adj.append(list())
 
     # Preencho a lista de adjacências com os vértices (índices da lista) e
     # suas respectivas conexões. Como é não direcionado, faço ida e volta.
     # O -1 é justamente pq estamos convertendo a lista de arestas do arquivo
     # que trabalha de 1 a n, pra lista de adjacências que trabalha de 0 a n-1.
     for vert1, vert2 in lista_de_arestas:
-        lista_adj[vert1-1].add(vert2-1)
-        lista_adj[vert2-1].add(vert1-1)
+        lista_adj[vert1-1].append(vert2-1)
+        lista_adj[vert2-1].append(vert1-1)
 
 
     # Algoritmo de achar componentes conexas.
@@ -98,7 +98,7 @@ def componentes_conexas(lista_de_arestas, num_vertices):
     return componentes
 
 # Leio os 120 arquivos mandados pelo professor Pablo em exemplo.zip
-"""
+
 for i in range(120):
     print()
     print(f"Arquivo {i}:")
@@ -111,9 +111,10 @@ for i in range(120):
             linha = linha + str(vertice_atual + 1) + " "
         print(linha.strip())
     print()
-"""
+
 
 # Leio apenas input
+"""
 lista_de_arestas, num_vertices = tratamento_dos_dados(leitura_do_input())
 componentes = componentes_conexas(lista_de_arestas, num_vertices)
 
@@ -122,3 +123,4 @@ for componente in componentes:
     for vertice_atual in componente:
         linha = linha + str(vertice_atual + 1) + " "
     print(linha.strip())
+"""
