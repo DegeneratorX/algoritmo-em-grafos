@@ -161,7 +161,6 @@ def leitura_do_arquivo(arquivo):
                 break
         file.seek(0, 0)
         linhas = file.readlines()
-
     return linhas
 
 # Leio os 120 arquivos mandados pelo professor Pablo em trabalho_2_entradas_e_saidas_para_teste.zip
