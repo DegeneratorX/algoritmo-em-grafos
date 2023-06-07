@@ -1,3 +1,5 @@
+from collections import deque
+
 class Grafo:
     def __init__(self, linhas, direcionado=False, tem_peso=False) -> None:
         self._lista_de_arestas, self._num_vertices = self.__tratamento_dos_dados(linhas, tem_peso)
@@ -19,6 +21,7 @@ class Grafo:
             lista_de_arestas.append(linha)
         return lista_de_arestas, num_vertices
 
+
     # Conversão para lista de adjacências
     def __para_lista_adj(self, direcionado, tem_peso):
         lista_adj = []
@@ -26,40 +29,48 @@ class Grafo:
             lista_adj.append([])
         if tem_peso:
             for vert1, vert2, peso in self._lista_de_arestas:
-                lista_adj[vert1 - 1].append(vert2 - 1)
-                lista_adj[vert1 - 1].append(peso)
+                lista_adj[vert1-1].append(vert2-1)
+                lista_adj[vert1-1].append(peso)
                 if not direcionado:
-                    lista_adj[vert2 - 1].append(vert1 - 1)
-                    lista_adj[vert2 - 1].append(peso)
+                    lista_adj[vert2-1].append(vert1-1)
+                    lista_adj[vert2-1].append(peso)
         else:
             for vert1, vert2 in self._lista_de_arestas:
-                lista_adj[vert1 - 1].append(vert2 - 1)
+                lista_adj[vert1-1].append(vert2-1)
                 if not direcionado:
-                    lista_adj[vert2 - 1].append(vert1 - 1)
+                    lista_adj[vert2-1].append(vert1-1)
         return lista_adj
 
-    def tem_circuito(self):
+
+    def computar_agm_removendo_ciclos(self):
+        lista_de_ciclos = set()
         estado = [None] * len(self._lista_adj)
         for vertice in range(len(self._lista_adj)):
             estado[vertice] = "nao_atingido"
         for origem in range(len(self._lista_adj)):
             if estado[origem] == "nao_atingido":
-                if self._encontrou_circuito(estado, origem):
-                    return True
-        return False
+                caminho_atual = []
+                ciclo = self._encontrou_ciclo(estado, origem, caminho_atual)
+                if ciclo:
+                    lista_de_ciclos.add(ciclo)
+        # Here you put the code to remove the vertex with the highest weight from the cycle.
 
-    def _encontrou_circuito(self, estado, origem):
+    def _encontrou_ciclo(self, estado, origem, caminho_atual):
         estado[origem] = "no_caminho_atual"
+        caminho_atual.append(origem)
         for vizinho in self._lista_adj[origem]:
             if estado[vizinho] == "no_caminho_atual":
-                return True
+                ciclo_inicio = caminho_atual.index(vizinho)
+                return caminho_atual[ciclo_inicio:]
             if estado[vizinho] == "nao_atingido":
-                if self._encontrou_circuito(estado, vizinho):
-                    return True
+                ciclo = self._encontrou_ciclo(estado, vizinho, caminho_atual)
+                if ciclo:
+                    return ciclo
             if estado[vizinho] == "finalizado":
                 pass
         estado[origem] = "finalizado"
-        return False
+        caminho_atual.pop()
+        return []
 
 
 def leitura_do_input():
@@ -88,11 +99,10 @@ def leitura_do_arquivo(arquivo):
 
 
 def main():
-    linhas = leitura_do_arquivo("grafo")
-    # linhas = leitura_do_input()
+    #linhas = leitura_do_arquivo("grafo")
+    linhas = leitura_do_input()
     grafo = Grafo(linhas, direcionado=True, tem_peso=False)
-    print(f"O grafo tem circuito: {grafo.tem_circuito()}")
-
+    print(f"Sequência: {[x for x in grafo.tem_circuito()]}")
 
 if __name__ == '__main__':
     main()

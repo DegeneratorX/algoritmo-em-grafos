@@ -42,33 +42,33 @@ class Grafo:
         return lista_adj
 
     def tem_circuito(self):
-        estado: list = [None] * len(self._lista_adj)
+        estado = [None] * len(self._lista_adj)
         for vertice in range(len(self._lista_adj)):
             estado[vertice] = "nao_atingido"
         for origem in range(len(self._lista_adj)):
-            sequencia = deque()
             if estado[origem] == "nao_atingido":
-                self._encontrou_circuito(estado, origem, sequencia)
-                break
-        aux = sequencia.popleft()
-        sequencia.append(aux)
-        sequencia.reverse()
-        return sequencia
+                caminho_atual = []
+                circuito = self._encontrou_circuito(estado, origem, caminho_atual)
+                if circuito:
+                    return circuito
+        return []
 
-    def _encontrou_circuito(self, estado, origem, sequencia) -> bool:
+    def _encontrou_circuito(self, estado, origem, caminho_atual):
         estado[origem] = "no_caminho_atual"
-        for vizinho in range(len(self._lista_adj[origem])):
-            if estado[self._lista_adj[origem][vizinho]] == "no_caminho_atual":
-                sequencia.append(self._lista_adj[origem][vizinho])
-                return True
-            if estado[self._lista_adj[origem][vizinho]] == "nao_atingido":
-                if self._encontrou_circuito(estado, self._lista_adj[origem][vizinho], sequencia):
-                    sequencia.append(self._lista_adj[origem][vizinho])
-                    return True
-            if estado[self._lista_adj[origem][vizinho]] == "finalizado":
+        caminho_atual.append(origem)
+        for vizinho in self._lista_adj[origem]:
+            if estado[vizinho] == "no_caminho_atual":
+                ciclo_inicio = caminho_atual.index(vizinho)
+                return caminho_atual[ciclo_inicio:]
+            if estado[vizinho] == "nao_atingido":
+                circuito = self._encontrou_circuito(estado, vizinho, caminho_atual)
+                if circuito:
+                    return circuito
+            if estado[vizinho] == "finalizado":
                 pass
         estado[origem] = "finalizado"
-        return False
+        caminho_atual.pop()
+        return []
 
 def leitura_do_input():
     linhas = []
