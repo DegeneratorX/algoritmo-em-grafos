@@ -71,6 +71,9 @@ class Grafo:
         estado[origem] = "finalizado"
         caminho_atual.pop()
         return []
+    
+    def peso(self, vertice_1, vertice_2):
+        pass
 
 
 def leitura_do_input():
