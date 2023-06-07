@@ -1,4 +1,5 @@
 from collections import deque
+from copy import deepcopy
 
 class Grafo:
     def __init__(self, linhas, direcionado=False, tem_peso=False) -> None:
@@ -53,7 +54,27 @@ class Grafo:
                 ciclo = self._encontrou_ciclo(estado, origem, caminho_atual)
                 if ciclo:
                     lista_de_ciclos.add(ciclo)
-        # Here you put the code to remove the vertex with the highest weight from the cycle.
+
+        lista_de_ciclos = list(lista_de_ciclos)
+        lista_de_arestas_maximas = set()
+        while lista_de_ciclos:
+            ciclo = lista_de_ciclos.pop()
+            peso_maximo = 0
+            for vertice in range(len(ciclo)):
+                if self.peso_de(ciclo[vertice]) > peso_maximo:
+                    peso_maximo = self.peso_de(ciclo[vertice])
+                    vertice_peso_maximo = ciclo[vertice]
+            lista_de_arestas_maximas.add((vertice_peso_maximo, peso_maximo))
+        agm = [list()]*len(self._lista_adj)
+        for i in range(len(self._lista_adj)):
+            for j in range(len(self._lista_adj[i])):
+                for k in range(len(lista_de_arestas_maximas)):
+                    if (self._lista_adj[i][j], self._lista_adj[i][j+1]) != lista_de_arestas_maximas[k]:
+                        agm[i].append(lista_de_arestas_maximas[k][0])
+                        agm[i].append(lista_de_arestas_maximas[k][1])
+        return agm
+
+        
 
     def _encontrou_ciclo(self, estado, origem, caminho_atual):
         estado[origem] = "no_caminho_atual"
@@ -72,8 +93,13 @@ class Grafo:
         caminho_atual.pop()
         return []
     
-    def peso(self, vertice_1, vertice_2):
-        pass
+    def peso_de(self, vertice_1, vertice_2):
+        for vizinho in range(0, len(self._lista_adj[vertice_1]), 2):
+            if self._lista_adj[vertice_1][vizinho] == vertice_2:
+                return self._lista_adj[vertice_1][vizinho+1]
+            else:
+                return 0
+
 
 
 def leitura_do_input():
