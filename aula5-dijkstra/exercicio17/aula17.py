@@ -3,90 +3,87 @@ from copy import deepcopy
 
 class MinHeap:
     def __init__(self, n, m):
-        self.n = n  # Número total de elementos identificados por [0..n-1]
-        self.m = m  # Número máximo de elementos no heap
-        self.heap = []  # Armazena os pares (u, p)
-        self.positions = [-1] * n  # Armazena as posições dos elementos no heap
-        self.size = 0  # Tamanho atual do heap
+        self.n = n
+        self.m = m
+        self.heap = []
+        self.positions = {}  # Dicionário para armazenar as posições dos elementos
+
+    def _swap(self, i, j):
+        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
+        self.positions[self.heap[i][0]] = i
+        self.positions[self.heap[j][0]] = j
+
+    def _heapify_up(self, idx):
+        parent_idx = (idx - 1) // 2
+        while idx > 0 and self.heap[idx][1] < self.heap[parent_idx][1]:
+            self._swap(idx, parent_idx)
+            idx = parent_idx
+            parent_idx = (idx - 1) // 2
+
+    def _heapify_down(self, idx):
+        left_child_idx = 2 * idx + 1
+        right_child_idx = 2 * idx + 2
+        smallest = idx
+
+        if (left_child_idx < len(self.heap) and
+                self.heap[left_child_idx][1] < self.heap[smallest][1]):
+            smallest = left_child_idx
+
+        if (right_child_idx < len(self.heap) and
+                self.heap[right_child_idx][1] < self.heap[smallest][1]):
+            smallest = right_child_idx
+
+        if smallest != idx:
+            self._swap(idx, smallest)
+            self._heapify_down(smallest)
 
     def criar(self):
         self.heap = []
-        self.positions = [-1] * self.n
-        self.size = 0
-
-    def pertence(self, u):
-        return self.positions[u] != -1
-
-    def consultar_peso(self, u):
-        if not self.pertence(u):
-            raise ValueError("Elemento não está no heap")
-        _, p = self.heap[self.positions[u]]
-        return p
-
-    def alterar_peso(self, u, novo_p):
-        if not self.pertence(u):
-            raise ValueError("Elemento não está no heap")
-        idx = self.positions[u]
-        _, p = self.heap[idx]
-        self.heap[idx] = (u, novo_p)
-        if novo_p < p:
-            self._subir(idx)
-        elif novo_p > p:
-            self._descer(idx)
-
-    def esta_vazio(self):
-        return self.size == 0
+        self.positions = {}
 
     def inserir(self, u, p):
-        if self.size == self.m:
-            raise ValueError("Heap está cheio")
-        if self.pertence(u):
-            raise ValueError("Elemento já está no heap")
-        self.heap.append((u, p))
-        self.positions[u] = self.size
-        self._subir(self.size)
-        self.size += 1
+        if u < self.n and len(self.heap) < self.m:
+            self.heap.append((u, p))
+            self.positions[u] = len(self.heap) - 1
+            self._heapify_up(len(self.heap) - 1)
 
     def consultar_minimo(self):
-        if self.esta_vazio():
-            raise ValueError("Heap está vazio")
-        return self.heap[0]
+        return self.heap[0] if self.heap else None
 
     def remover_minimo(self):
-        if self.esta_vazio():
-            raise ValueError("Heap está vazio")
-        minimo = self.heap[0]
-        ultimo = self.heap[self.size - 1]
-        self.heap[0] = ultimo
-        self.positions[ultimo[0]] = 0
-        self.positions[minimo[0]] = -1
-        self.heap.pop()
-        self.size -= 1
-        self._descer(0)
-        return minimo
+        if not self.heap:
+            return None
 
-    def _subir(self, idx):
-        pai = (idx - 1) // 2
-        while idx > 0 and self.heap[idx][1] < self.heap[pai][1]:
-            self.heap[idx], self.heap[pai] = self.heap[pai], self.heap[idx]
-            self.positions[self.heap[idx][0]] = idx
-            self.positions[self.heap[pai][0]] = pai
-            idx = pai
-            pai = (idx - 1) // 2
+        min_element = self.heap[0]
+        last_element = self.heap.pop()
+        if self.heap:
+            self.heap[0] = last_element
+            self.positions[last_element[0]] = 0
+            self._heapify_down(0)
 
-    def _descer(self, idx):
-        esq = 2 * idx + 1
-        dir = 2 * idx + 2
-        menor = idx
-        if esq < self.size and self.heap[esq][1] < self.heap[menor][1]:
-            menor = esq
-        if dir < self.size and self.heap[dir][1] < self.heap[menor][1]:
-            menor = dir
-        if menor != idx:
-            self.heap[idx], self.heap[menor] = self.heap[menor], self.heap[idx]
-            self.positions[self.heap[idx][0]] = idx
-            self.positions[self.heap[menor][0]] = menor
-            self._descer(menor)
+        del self.positions[min_element[0]]
+        return min_element
+
+    def pertence(self, u):
+        return u in self.positions
+
+    def consultar_peso(self, u):
+        if u in self.positions:
+            return self.heap[self.positions[u]][1]
+        return None
+
+    def alterar_peso(self, u, novo_p):
+        if u in self.positions:
+            idx = self.positions[u]
+            old_p = self.heap[idx][1]
+            self.heap[idx] = (u, novo_p)
+            if novo_p < old_p:
+                self._heapify_up(idx)
+            elif novo_p > old_p:
+                self._heapify_down(idx)
+
+    def esta_vazio(self):
+        return len(self.heap) == 0
 
 
 class Grafo:
@@ -137,27 +134,33 @@ class Grafo:
             else:
                 return 0
 
+    def vizinhos_de(self, vertice):
+        pass
+
     def dijkstra(self, origem):
-        distancias = []
-        ancestrais = []
+        distancias = [0]*len(self._lista_adj)
+        ancestrais = [0]*len(self._lista_adj)
+        print(self._lista_adj)
         for vertice in range(len(self._lista_adj)):
             distancias[vertice] = float('inf')
             ancestrais[vertice] = -1
-        heap = MinHeap()
+        heap = MinHeap(10000, 10000)
         heap.inserir(origem, 0)
         while not heap.esta_vazio():
             u, p = heap.remover_minimo()
             distancias[u] = p
-            for vertice in range(len(self._lista_adj[u])):
-                if distancias[vertice] == float('inf'):
-                    peso_via_u = p + self.peso_de(u, vertice)
-                    if not heap.pertence(vertice):
-                        heap.inserir(vertice, peso_via_u)
-                        ancestrais[vertice] = u
+            for vertice in range(0, len(self._lista_adj[u]), 2):
+                print(f"self._lista_adj[u][vertice] = {self._lista_adj[u][vertice]}")
+                print(f"distancias[self._lista_adj[u][vertice]] = {distancias[self._lista_adj[u][vertice]]}")
+                if distancias[self._lista_adj[u][vertice]] == float('inf'):
+                    peso_via_u = p + self.peso_de(u, self._lista_adj[u][vertice])
+                    if not heap.pertence(self._lista_adj[u][vertice]):
+                        heap.inserir(self._lista_adj[u][vertice], peso_via_u)
+                        ancestrais[self._lista_adj[u][vertice]] = u
                     else:
-                        if peso_via_u < heap.consultar_peso(vertice):
-                            heap.alterar_peso(vertice, peso_via_u)
-                            ancestrais[vertice] = u
+                        if peso_via_u < heap.consultar_peso(self._lista_adj[u][vertice]):
+                            heap.alterar_peso(self._lista_adj[u][vertice], peso_via_u)
+                            ancestrais[self._lista_adj[u][vertice]] = u
         return (distancias, ancestrais)
 
 
@@ -190,7 +193,10 @@ def main():
     #linhas = leitura_do_arquivo("grafo")
     linhas = leitura_do_input()
     grafo = Grafo(linhas, direcionado=True, tem_peso=True)
-    grafo.dijkstra(0)
+    distancias, ancestrais = grafo.dijkstra(0)
+    print(f"Distancias: {distancias}")
+    print(f"Ancestrais: {ancestrais}")
+
     
 
 if __name__ == '__main__':

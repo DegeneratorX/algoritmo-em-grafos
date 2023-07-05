@@ -61,3 +61,11 @@ Enunciado e intuição da demonstração de teorema sobre a maximalidade de flux
     - **f(X ∪ Y, Z) = f(X,Z) + f(Y,Z), para quaisquer X,Y,Z ⊆ V tais que X ∩ Y = ∅.**
 
 - **Tente demonstrar o Lema 5 da aula de hoje, com base na intuição apresentada em sala.**
+
+## Aula 27
+
+Enunciado, Prova e Exemplo de Teorema: um fluxo é máximo sse não há caminhos aumentantes a ele relativos.
+Observação sobre o Tempo de Execução de Ford-Fulkerson: pode ser proporcional às capacidades das arestas.
+Algoritmo de Edmonds-Karp: Definição e Menção ao Tempo de Execução.
+
+- **Para compreender os detalhes envolvidos na solução do problema de fluxo, escreva em detalhes o algoritmo de Edmonds-Karp, isto é, a versão particular do método de Ford-Fulkerson que usa a Busca em Largura para descobrir os caminhos aumentantes. Dê particular atenção a uma representação eficiente da rede residual, bem como a uma atualização eficiente da rede a cada novo caminho aumentante. (Você pode supor que, na rede de entrada, todos os vértices são atingíveis a partir da origem, ou seja, você não precisa incluir no algoritmo um passo de pré-processamento.)**
