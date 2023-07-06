@@ -90,6 +90,7 @@ class Grafo:
     def __init__(self, linhas, direcionado=False, tem_peso=False) -> None:
         self._lista_de_arestas, self._num_vertices = self.__tratamento_dos_dados(linhas, tem_peso)
         self._lista_adj = self.__para_lista_adj(direcionado, tem_peso)
+        self.visited = []
 
     # Tratamento das strings.
     def __tratamento_dos_dados(self, linhas, tem_peso):
@@ -136,32 +137,52 @@ class Grafo:
     def vizinhos_de(self, vertice):
         pass
 
-    def dijkstra(self, origem):
-        distancias = [0]*len(self._lista_adj)
-        ancestrais = [0]*len(self._lista_adj)
-        print(self._lista_adj)
-        for vertice in range(len(self._lista_adj)):
-            distancias[vertice] = float('inf')
-            ancestrais[vertice] = -1
-        heap = MinHeap(10000, 10000)
-        heap.inserir(origem, 0)
-        while not heap.esta_vazio():
-            u, p = heap.remover_minimo()
-            distancias[u] = p
-            for vertice in range(0, len(self._lista_adj[u]), 2):
-                print(f"self._lista_adj[u][vertice] = {self._lista_adj[u][vertice]}")
-                print(f"distancias[self._lista_adj[u][vertice]] = {distancias[self._lista_adj[u][vertice]]}")
-                if distancias[self._lista_adj[u][vertice]] == float('inf'):
-                    peso_via_u = p + self.peso_de(u, self._lista_adj[u][vertice])
-                    if not heap.pertence(self._lista_adj[u][vertice]):
-                        heap.inserir(self._lista_adj[u][vertice], peso_via_u)
-                        ancestrais[self._lista_adj[u][vertice]] = u
-                    else:
-                        print(heap.consultar_peso(self._lista_adj[u][vertice]))
-                        if peso_via_u < heap.consultar_peso(self._lista_adj[u][vertice]):
-                            heap.alterar_peso(self._lista_adj[u][vertice], peso_via_u)
-                            ancestrais[self._lista_adj[u][vertice]] = u
-        return (distancias, ancestrais)
+
+class Graph:
+    def __init__(self, graph):
+        self.graph = graph  # adjacency list
+        self.ROW = len(graph)
+
+    def BFS(self, s, t, parent):
+        visited = [False] * self.ROW
+        queue = []
+        queue.append(s)
+        visited[s] = True
+
+        while queue:
+            u = queue.pop(0)
+
+            for ind, val in enumerate(self.graph[u]):
+                if visited[ind] == False and val > 0: 
+                    queue.append(ind)
+                    visited[ind] = True
+                    parent[ind] = u
+                    if ind == t:
+                        return True
+
+        return False
+
+    def FordFulkerson(self, source, sink):
+        parent = [-1] * self.ROW
+        max_flow = 0
+
+        while self.BFS(source, sink, parent):
+            path_flow = float("Inf")
+            s = sink
+            while s != source:
+                path_flow = min(path_flow, self.graph[parent[s]][s])
+                s = parent[s]
+
+            max_flow += path_flow
+
+            v = sink
+            while v != source:
+                u = parent[v]
+                self.graph[u][v] -= path_flow
+                self.graph[v][u] += path_flow
+                v = parent[v]
+
+        return max_flow
 
 
 def leitura_do_input():
@@ -193,10 +214,7 @@ def main():
     #linhas = leitura_do_arquivo("grafo")
     linhas = leitura_do_input()
     grafo = Grafo(linhas, direcionado=True, tem_peso=True)
-    distancias, ancestrais = grafo.dijkstra(0)
-    print(f"Distancias: {distancias}")
-    print(f"Ancestrais: {ancestrais}")
-
+    print(grafo.ford_fulkerson(0, 3))
     
 
 if __name__ == '__main__':
