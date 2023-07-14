@@ -3,7 +3,7 @@ from collections import deque
 class Grafo:
     def __init__(self, linhas, tem_peso=False) -> None:
         self._lista_de_arestas, self._num_vertices = self.__tratamento_dos_dados(linhas, tem_peso)
-        self._matriz_adj= self.__para_matriz_adj()
+        self._lista_adj = self.__para_lista_adj()
 
     # Tratamento das strings.
     def __tratamento_dos_dados(self, linhas, tem_peso):
@@ -21,15 +21,15 @@ class Grafo:
             lista_de_arestas.append(linha)
         return lista_de_arestas, num_vertices+1
 
-    def __para_matriz_adj(self):
-        matriz_adj = [[0 for _ in range(self._num_vertices)] for _ in range(self._num_vertices)]
+    def __para_lista_adj(self):
+        lista_adj = [[] for _ in range(self._num_vertices)]
         for i, j, w in self._lista_de_arestas:
-            matriz_adj[i][j] = w
+            lista_adj[i].append((j, w))
 
-        return matriz_adj
+        return lista_adj
 
     def fluxo_maximo(self, origem, destino):
-        n = len(self._matriz_adj)
+        n = len(self._lista_adj)
         fluxos = [[0] * n for _ in range(n)]
 
         # Lembrar que a capacidade residual de u a v é Cap[u][v] - Fluxos[u][v]
@@ -37,25 +37,32 @@ class Grafo:
             caminho = self.bfs(fluxos, origem, destino)
             if not caminho:
                 break
-                
+
             # Acha a capacidade mínima no caminho
-            fluxo = min(self._matriz_adj[u][v] - fluxos[u][v] for u, v in caminho)
-            
+            fluxo = min(self._get_capacidade(u, v) - fluxos[u][v] for u, v in caminho)
+
             # Aumenta o fluxo ao longo do caminho
             for u, v in caminho:
                 fluxos[u][v] += fluxo
                 fluxos[v][u] -= fluxo
-                
+
         return sum(fluxos[origem][i] for i in range(n))
 
-    # BFS pra achar o menor caminho aumentante
+    # Obtém a capacidade de uma aresta (u, v) na lista de adjacência
+    def _get_capacidade(self, u, v):
+        for vertex, weight in self._lista_adj[u]:
+            if vertex == v:
+                return weight
+        return 0
+
+    # BFS para achar o menor caminho aumentante
     def bfs(self, fluxos, origem, destino):
         fila = deque([origem])
         caminhos = {origem: []}
         while fila:
             vertice_atual = fila.pop()
-            for vizinho in range(len(self._matriz_adj)):
-                if (self._matriz_adj[vertice_atual][vizinho] - fluxos[vertice_atual][vizinho] > 0) and vizinho not in caminhos:
+            for vizinho, _ in self._lista_adj[vertice_atual]:
+                if (self._get_capacidade(vertice_atual, vizinho) - fluxos[vertice_atual][vizinho] > 0) and vizinho not in caminhos:
                     caminhos[vizinho] = caminhos[vertice_atual] + [(vertice_atual, vizinho)]
                     if vizinho == destino:
                         return caminhos[vizinho]

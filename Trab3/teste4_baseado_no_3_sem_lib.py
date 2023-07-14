@@ -92,8 +92,28 @@ def retira_ponto_zero_do_float(numero):
     else:
         return numero
 
+"""
+# edges [from, to, capacity]
+edges = [
+    [1, 3, 78.25],
+    [2, 3, 76.75],
+    [3, 5, 63.5],
+    [3, 2, 51.25],
+    [3, 1, 62.875],
+    [4, 3, 13.625],
+    [4, 2, 1.625],
+    [4, 1, 14.125],
+    [5, 2, 10.875],
+    [5, 1, 40.0],
+]
+"""
+
 def main():
+    #for arq in range(13):
     linhas = leitura_do_input()
+        #print()
+        #print(f"Arquivo {arq}:")
+        #linhas = leitura_do_arquivo(arq)
     grafo = Grafo(linhas, tem_peso=True)
 
     # Calcula todos os fluxos máximos pedidos
