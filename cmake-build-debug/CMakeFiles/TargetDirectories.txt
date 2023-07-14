@@ -1,3 +1,3 @@
-C:/Users/Diassis 2022/Documents/PycharmProjects/AlGrafos/cmake-build-debug/CMakeFiles/AlGrafos.dir
-C:/Users/Diassis 2022/Documents/PycharmProjects/AlGrafos/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Diassis 2022/Documents/PycharmProjects/AlGrafos/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/arida01/Documentos/Victor/Projetos/AlGrafos/cmake-build-debug/CMakeFiles/AlGrafos.dir
+/home/arida01/Documentos/Victor/Projetos/AlGrafos/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/arida01/Documentos/Victor/Projetos/AlGrafos/cmake-build-debug/CMakeFiles/rebuild_cache.dir
