@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/AlGrafos.dir/Trab3/Trabalho3Def.cpp.o -o AlGrafos 
