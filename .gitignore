@@ -85,7 +85,3 @@ dkms.conf
 *.out
 *.app
 
-# Exclusive
-GPT.md
-
-Trab1/exemplos
